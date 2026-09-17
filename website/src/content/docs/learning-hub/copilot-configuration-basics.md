@@ -591,7 +591,7 @@ In v1.0.66+, you can pass a task description to `/worktree` to name the branch f
 
 This creates a branch named from your task description and begins working on it immediately, making it easy to spin up parallel work without stopping to think of a branch name.
 
-After the command runs, the session is inside the new worktree. Use this when you want to work on a second task in parallel without stashing changes or opening a new terminal. In v1.0.64+ you can also use the experimental `--worktree` flag at startup (`copilot -w [name]`) to create or reuse a worktree under `<repo>.worktrees/` before the session begins.
+After the command runs, the session is inside the new worktree. Use this when you want to work on a second task in parallel without stashing changes or opening a new terminal. In v1.0.64+ you can also use the `--worktree` flag at startup (`copilot -w [name]`) to create or reuse a worktree under `<repo>.worktrees/` before the session begins — this flag was experimental at introduction but graduated to the default experience in v1.0.85+ (see [Worktree Commands Out of Experimental](#worktree-commands-out-of-experimental)).
 
 The `/new-worktree` command *(v1.0.78+, experimental)* creates a new worktree and starts a **fresh conversation** in it — without inheriting the current session's history. This is useful when you want a completely clean slate for a new task in a parallel branch:
 
@@ -945,6 +945,26 @@ copilot skill enable my-skill    # enable a specific skill
 ### Command-Line Parsing Rewrite
 
 *(v1.0.84+)* Command-line parsing moved from Commander to a Rust-based grammar that mirrors what the CLI actually parses, which also generates shell completions directly from that grammar — so `copilot <TAB>` now offers root flags alongside subcommands, and each subcommand only shows its own options. As a result of this change, some error and help wording changed, `copilot login --host` now works correctly, and `--max-autopilot-continues` no longer accepts scientific notation as a value.
+
+### Concise Transcript View
+
+*(v1.0.85+)* Set `transcriptView` to `"concise"` in `/settings` to group tool activity into expandable work summaries instead of showing every individual tool call inline. This keeps long sessions with many tool invocations easier to scan — expand a summary only when you need to see the underlying tool calls:
+
+```
+/settings transcriptView concise
+```
+
+### Agent Factory Runs
+
+*(v1.0.85+)* The `/factories` dialog now lets you **pause and resume** Agent Factory runs, giving you more control over long-running automated agent-building workflows without having to cancel and restart them:
+
+```
+/factories        # open the Agent Factory dialog
+```
+
+### Worktree Commands Out of Experimental
+
+*(v1.0.85+)* `/worktree`, `/move`, and the `--worktree` startup flag no longer require enabling experimental mode — they're available by default. `/collect-debug-logs` and the `--collect-debug-logs` flag are likewise now available to all users rather than being gated behind `/experimental`.
 
 ## Common Questions
 

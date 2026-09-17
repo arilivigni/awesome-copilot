@@ -157,6 +157,12 @@ Because it runs as a sub-agent layer rather than replacing your primary model, y
 
 > **Note**: This is an experimental feature and may change. Provide feedback via `/feedback` if you find it useful.
 
+**Context management tools for agents and subagents** *(v1.0.85+)*: Opt in from `/settings` to give agents and subagents access to dedicated context management tools — capabilities they can invoke themselves to manage their own context window (for example, summarizing or trimming earlier conversation history) rather than relying solely on automatic compaction. This is useful for long-running `/fleet` orchestrations where individual subagents accumulate large amounts of tool output over many turns:
+
+```
+/settings           # find the context management tools option under Agents
+```
+
 ## Orchestration patterns that work well
 
 ### Coordinator and worker
@@ -201,6 +207,10 @@ When an agent delegates work to multiple chats, VS Code's **Agents window** now 
 This pairs with **improved workspace resolution**: agents can resolve a workspace by project name (for example, "run this in the vscode workspace") in addition to absolute paths, which simplifies prompts that hand off work across multiple repositories.
 
 **Shareable session links** *(VS Code 1.138+)*: Agent Host sessions and chats now provide browser-addressable links, so you can reopen or share a specific Agents window session directly from another app, a GitHub issue, or terminal output — useful when handing off a delegated subagent's work to a teammate for review. You can also start a new session beside the current one in one step, keeping the current work visible while a second session starts.
+
+**Run agent sessions in local Dev Containers** *(VS Code 1.138+, Setting: `chat.agentHost.devContainer.enabled`)*: Keep an agent's work aligned with your project's toolchain by running its session inside a local folder's Dev Container instead of your host machine. When enabled, local folders with a supported Dev Container configuration show a **Use Dev Container** action in the workspace picker; selecting it runs the agent session with the environment and dependencies the project's `devcontainer.json` defines (Docker must be installed). This is rolling out gradually, so the setting may not be on by default yet — enable it manually to try it now.
+
+**Keep completed sessions organized (Preview)** *(VS Code 1.138+, Settings: `chat.agentSessions.archiveNudge.enabled`, `chat.agentSessions.autoMarkAsDoneMergedSessionsAfterDays`, `chat.agentSessions.autoDeleteArchivedMergedSessionsAfterDays`)*: When all of a session's pull requests have merged, the Agents window can suggest marking it as **Done**, keeping finished work out of the sidebar while preserving the conversation for later. You can also automate the cleanup — mark inactive sessions done after their PRs merge, and optionally delete them after a further grace period. Both automatic-cleanup settings are disabled by default; enable `chat.agentSessions.archiveNudge.enabled` to see the suggestions first.
 
 ## Common questions
 
